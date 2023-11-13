@@ -1,10 +1,3 @@
-//
-//  SceneDelegate.swift
-//  WeatherApp
-//
-//  Created by Анна on 6.11.23.
-//
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {

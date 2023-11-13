@@ -2,6 +2,8 @@ import UIKit
 import Foundation
 
 class ViewController: UIViewController {
+    
+    let locationManager = LocationManager()
 
     enum FontName: String {
         case copperplate = "Copperplate"
@@ -29,7 +31,6 @@ class ViewController: UIViewController {
     let temperatureIconColor = UIColor(red: 240/255, green: 168/255, blue: 153/255, alpha: 1.0)
     let windIconColor = UIColor(red: 185/255, green: 188/255, blue: 107/255, alpha: 1.0)
     let humidityIconColor = UIColor(red: 181/255, green: 152/255, blue: 206/255, alpha: 1.0)
-
     
     
     override func viewDidLoad() {
@@ -38,6 +39,7 @@ class ViewController: UIViewController {
         
         setupViews()
         startAnimation()
+        locationManager.setup()
     }
     
     
@@ -120,7 +122,4 @@ class ViewController: UIViewController {
         rotationAnimation.duration = 1.0
         circleImageView.layer.add(rotationAnimation, forKey: "spinAnimation")
     }
-    
-
-    
 }
