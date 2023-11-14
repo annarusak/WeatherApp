@@ -4,15 +4,16 @@ import CoreLocation
 class LocationManager: NSObject, CLLocationManagerDelegate {
 
     
-    private let locationManager = CLLocationManager()
+    private let systemLocationManager = CLLocationManager()
     private var currentLocation: CLLocation?
     private var long = Double()
     private var lat = Double()
+    private var delegate: (((Double, Double)) -> Void)?
     
     func setup() {
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
+        systemLocationManager.delegate = self
+        systemLocationManager.requestWhenInUseAuthorization()
+        systemLocationManager.startUpdatingLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -20,7 +21,9 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             currentLocation = locations.first
             long = currentLocation!.coordinate.longitude
             lat = currentLocation!.coordinate.latitude
-            print("\(long) | \(lat)")
+            systemLocationManager.stopUpdatingLocation()
+            
+            self.delegate?((lat, long))
         }
     }
     
@@ -29,6 +32,10 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     func coordinates() -> (Double, Double) {
-        return (long, lat)
+        return (lat, long)
+    }
+    
+    func addDelegate(delegate: @escaping ((Double, Double)) -> Void) {
+        self.delegate = delegate
     }
 }
