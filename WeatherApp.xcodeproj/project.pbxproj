@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F4CE97332B025F6500F7CB0A /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CE97322B025F6500F7CB0A /* LocationManager.swift */; };
+		F4CE97352B028E8500F7CB0A /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CE97342B028E8500F7CB0A /* Model.swift */; };
 		F4F7385C2AF904AD009897E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F7385B2AF904AD009897E6 /* AppDelegate.swift */; };
 		F4F7385E2AF904AD009897E6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F7385D2AF904AD009897E6 /* SceneDelegate.swift */; };
 		F4F738602AF904AD009897E6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F7385F2AF904AD009897E6 /* ViewController.swift */; };
@@ -18,6 +19,7 @@
 
 /* Begin PBXFileReference section */
 		F4CE97322B025F6500F7CB0A /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		F4CE97342B028E8500F7CB0A /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		F4F738582AF904AD009897E6 /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4F7385B2AF904AD009897E6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F4F7385D2AF904AD009897E6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -43,6 +45,7 @@
 			isa = PBXGroup;
 			children = (
 				F4CE97322B025F6500F7CB0A /* LocationManager.swift */,
+				F4CE97342B028E8500F7CB0A /* Model.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -149,6 +152,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4CE97352B028E8500F7CB0A /* Model.swift in Sources */,
 				F4CE97332B025F6500F7CB0A /* LocationManager.swift in Sources */,
 				F4F738602AF904AD009897E6 /* ViewController.swift in Sources */,
 				F4F7385C2AF904AD009897E6 /* AppDelegate.swift in Sources */,
