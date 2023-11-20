@@ -3,13 +3,10 @@ import Foundation
 
 class ViewController: UIViewController {
     
-    let locationManager = LocationManager()
-
     enum FontName: String {
         case copperplate = "Copperplate"
         case helveticaNeue = "Helvetica Neue"
     }
-    
     
     let circleImageView: UIImageView = {
         let imageView = UIImageView()
@@ -32,16 +29,8 @@ class ViewController: UIViewController {
     let windIconColor = UIColor(red: 185/255, green: 188/255, blue: 107/255, alpha: 1.0)
     let humidityIconColor = UIColor(red: 181/255, green: 152/255, blue: 206/255, alpha: 1.0)
     
-    var urlString = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/"
-    
-    // This is the example of URL string we finally need to make: https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/53.865%2C27.54?unitGroup=metric&key=U84NDX95RED9P6RMFTWQXAJBN&contentType=json
-    
-    var temperature = Float()
-    var humidity = Float()
-    var wind = Float()
-    var conditions = String()
-    var loc = String()
-    var timezone = String()
+    let locationManager = LocationManager()
+    let weatherProvider = WeatherProvider()
     
     
     override func viewDidLoad() {
@@ -49,13 +38,13 @@ class ViewController: UIViewController {
         
         setupViews()
         locationManager.addDelegate(delegate: requestWeatherForLocation)
+        weatherProvider.addDelegate(delegate: weatherDelegate)
         locationManager.setup()
     }
     
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
         circleRotation()
     }
     
@@ -166,16 +155,7 @@ class ViewController: UIViewController {
     func updateWeatherLabel(label: UILabel, value: String) {
         label.text = value
     }
-    
-    func updateWeatherLabel(label: UILabel, valueToCrop: String) {
-        var nameOfCity = ""
-        if let slash = label.text!.range(of: "/")?.upperBound {
-            nameOfCity = String(valueToCrop.suffix(from: slash))
-        }
-        label.text = nameOfCity
-    }
 
-    
     func cityFromTimezone(timezone: String) -> String {
         var afterSlash = ""
         if let slash = timezone.range(of: "/")?.upperBound {
@@ -187,52 +167,18 @@ class ViewController: UIViewController {
         return afterSlash
     }
     
+    private func weatherDelegate(weather : WeatherProvider.Weather) {
+        updateWeatherLabel(label: temperatureMainLabel, value: weather.temperature, postfix: "°", withIcon: false)
+        updateWeatherLabel(label: temperatureLabel, value: weather.temperature, postfix: "°", withIcon: true)
+        updateWeatherLabel(label: humidityLabel, value: weather.humidity, postfix: "%", withIcon: true)
+        updateWeatherLabel(label: windSpeedLabel, value: weather.windSpeed, postfix: " m/s", withIcon: true)
+        updateWeatherLabel(label: weatherConditionsLabel, value: weather.conditions.uppercased())
+        updateWeatherLabel(label: cityNameLabel, value: cityFromTimezone(timezone: weather.timezone).uppercased())
+    }
 
     private func requestWeatherForLocation(location : (latitude: Double, longitude: Double)) {
-
         print("\(location.latitude) | \(location.longitude)")
-        
-        urlString = urlString + String(location.latitude) + "%2C" + String(location.longitude) + "?unitGroup=metric&key=SEGQ9YES8T55WUMCE8CNRVCJR&contentType=json"
-        
-        // Doing URL request, check and parse our json, assign weather values we need to variables we made at the beginning
-        guard let url = URL(string: urlString) else { return }
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                print(error)
-                return
-            }
-            guard let data = data else { return }
-            let jsonString = String(data: data, encoding: .utf8)
-            print(jsonString!)
-
-            do {
-                let decoder = JSONDecoder()
-                let details = try decoder.decode(WeatherDetails.self, from: data)
-
-                self.temperature = details.currentConditions.temp
-                print(self.temperature)
-                self.wind = details.currentConditions.windspeed
-                print(self.wind)
-                self.humidity = details.currentConditions.humidity
-                print(self.humidity)
-                self.conditions = details.currentConditions.conditions
-                print(self.conditions)
-                self.loc = details.address
-                print(self.loc)
-                self.timezone = details.timezone
-                print(self.timezone)
-            } catch {
-                print(error)
-            }
-            DispatchQueue.main.async {
-                self.updateWeatherLabel(label: self.temperatureMainLabel, value: self.temperature, postfix: "°", withIcon: false)
-                self.updateWeatherLabel(label: self.temperatureLabel, value: self.temperature, postfix: "°", withIcon: true)
-                self.updateWeatherLabel(label: self.humidityLabel, value: self.humidity, postfix: "%", withIcon: true)
-                self.updateWeatherLabel(label: self.windSpeedLabel, value: self.wind, postfix: " m/s", withIcon: true)
-                self.updateWeatherLabel(label: self.weatherConditionsLabel, value: self.conditions.uppercased())
-                self.updateWeatherLabel(label: self.cityNameLabel, value: self.cityFromTimezone(timezone: self.timezone).uppercased())
-            }
-        }.resume()
+        weatherProvider.request(location: location)
     }
     
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F45D7D772B03C64300B4567C /* WeatherProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45D7D762B03C64300B4567C /* WeatherProvider.swift */; };
 		F4CE97332B025F6500F7CB0A /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CE97322B025F6500F7CB0A /* LocationManager.swift */; };
 		F4CE97352B028E8500F7CB0A /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CE97342B028E8500F7CB0A /* Model.swift */; };
 		F4F7385C2AF904AD009897E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F7385B2AF904AD009897E6 /* AppDelegate.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F45D7D762B03C64300B4567C /* WeatherProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherProvider.swift; sourceTree = "<group>"; };
 		F4CE97322B025F6500F7CB0A /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		F4CE97342B028E8500F7CB0A /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		F4F738582AF904AD009897E6 /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -46,6 +48,7 @@
 			children = (
 				F4CE97322B025F6500F7CB0A /* LocationManager.swift */,
 				F4CE97342B028E8500F7CB0A /* Model.swift */,
+				F45D7D762B03C64300B4567C /* WeatherProvider.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -153,6 +156,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4CE97352B028E8500F7CB0A /* Model.swift in Sources */,
+				F45D7D772B03C64300B4567C /* WeatherProvider.swift in Sources */,
 				F4CE97332B025F6500F7CB0A /* LocationManager.swift in Sources */,
 				F4F738602AF904AD009897E6 /* ViewController.swift in Sources */,
 				F4F7385C2AF904AD009897E6 /* AppDelegate.swift in Sources */,

@@ -14,6 +14,4 @@ struct WeatherCurrentCondition: Decodable {
         let windspeed: Float
         let conditions: String
         let datetime: String
-    
-//        let stations: [String]
 }
