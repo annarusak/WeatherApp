@@ -15,15 +15,14 @@ class ViewController: UIViewController {
         return imageView
     }()
     
-    private lazy var cityNameLabel = createLabel(labelText: "-", fontName: FontName.copperplate.rawValue, sizeOfFont: 15)
-    private lazy var temperatureMainLabel = createLabel(labelText: "", fontName: FontName.helveticaNeue.rawValue, sizeOfFont: 40)
+    private lazy var cityNameLabel = createLabel(labelText: "-", fontName: FontName.copperplate.rawValue, sizeOfFont: 20)
+    private lazy var temperatureMainLabel = createLabel(labelText: "", fontName: FontName.helveticaNeue.rawValue, sizeOfFont: 43)
     private lazy var dayOfWeekLabel = createLabel(labelText: "MONDAY", fontName: FontName.copperplate.rawValue, sizeOfFont: 30)
-    private lazy var weatherConditionsLabel = createLabel(labelText: "-", fontName: FontName.copperplate.rawValue, sizeOfFont: 17)
+    private lazy var currentDateLabel = createLabel(labelText: "7 NOV", fontName: FontName.copperplate.rawValue, sizeOfFont: 17)
+    private lazy var weatherConditionsLabel = createLabel(labelText: "-", fontName: FontName.copperplate.rawValue, sizeOfFont: 18)
     private lazy var temperatureLabel = createLabel(imageName: "thermometer", imageColor: temperatureIconColor, labelText: "-", fontName: FontName.helveticaNeue.rawValue, sizeOfFont: 17)
     private lazy var windSpeedLabel = createLabel(imageName: "wind", imageColor: windIconColor, labelText: "-", fontName: FontName.helveticaNeue.rawValue, sizeOfFont: 17)
     private lazy var humidityLabel = createLabel(imageName: "humidity", imageColor: humidityIconColor, labelText: "-", fontName: FontName.helveticaNeue.rawValue, sizeOfFont: 17)
-    private lazy var currentTimeLabel = createLabel(labelText: "18.30 PM", fontName: FontName.copperplate.rawValue, sizeOfFont: 17)
-    private lazy var currentDateLabel = createLabel(labelText: "7 NOV", fontName: FontName.copperplate.rawValue, sizeOfFont: 17)
 
     let temperatureIconColor = UIColor(red: 240/255, green: 168/255, blue: 153/255, alpha: 1.0)
     let windIconColor = UIColor(red: 185/255, green: 188/255, blue: 107/255, alpha: 1.0)
@@ -86,26 +85,28 @@ class ViewController: UIViewController {
         view.addSubview(temperatureLabel)
         view.addSubview(windSpeedLabel)
         view.addSubview(humidityLabel)
-        view.addSubview(currentTimeLabel)
         view.addSubview(currentDateLabel)
         
         NSLayoutConstraint.activate([
             weatherConditionsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             weatherConditionsLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-
+            
+            currentDateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            currentDateLabel.bottomAnchor.constraint(equalTo: weatherConditionsLabel.topAnchor, constant: -10),
+            
             dayOfWeekLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            dayOfWeekLabel.bottomAnchor.constraint(equalTo: weatherConditionsLabel.topAnchor),
+            dayOfWeekLabel.bottomAnchor.constraint(equalTo: currentDateLabel.topAnchor, constant: -5),
 
             circleImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             circleImageView.bottomAnchor.constraint(equalTo: dayOfWeekLabel.topAnchor, constant: -50),
-            circleImageView.widthAnchor.constraint(equalToConstant: 180),
-            circleImageView.heightAnchor.constraint(equalToConstant: 180),
+            circleImageView.widthAnchor.constraint(equalToConstant: 160),
+            circleImageView.heightAnchor.constraint(equalToConstant: 160),
 
-            temperatureMainLabel.centerXAnchor.constraint(equalTo: circleImageView.centerXAnchor),
-            temperatureMainLabel.centerYAnchor.constraint(equalTo: circleImageView.centerYAnchor, constant: 10),
+            temperatureMainLabel.centerXAnchor.constraint(equalTo: circleImageView.centerXAnchor, constant: 5),
+            temperatureMainLabel.centerYAnchor.constraint(equalTo: circleImageView.centerYAnchor, constant: -3),
 
             cityNameLabel.centerXAnchor.constraint(equalTo: circleImageView.centerXAnchor),
-            cityNameLabel.bottomAnchor.constraint(equalTo: temperatureMainLabel.topAnchor),
+            cityNameLabel.bottomAnchor.constraint(equalTo: circleImageView.topAnchor, constant: -5),
 
             windSpeedLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             windSpeedLabel.centerYAnchor.constraint(equalTo: weatherConditionsLabel.centerYAnchor, constant: 100),
@@ -114,13 +115,7 @@ class ViewController: UIViewController {
             temperatureLabel.rightAnchor.constraint(equalTo: windSpeedLabel.leftAnchor, constant: -60),
 
             humidityLabel.centerYAnchor.constraint(equalTo: windSpeedLabel.centerYAnchor),
-            humidityLabel.leftAnchor.constraint(equalTo: windSpeedLabel.rightAnchor, constant: 60),
-
-            currentTimeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            currentTimeLabel.centerYAnchor.constraint(equalTo: windSpeedLabel.centerYAnchor, constant: 100),
-
-            currentDateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            currentDateLabel.centerYAnchor.constraint(equalTo: currentTimeLabel.centerYAnchor, constant: 20)
+            humidityLabel.leftAnchor.constraint(equalTo: windSpeedLabel.rightAnchor, constant: 60)
         ])
     }
     
