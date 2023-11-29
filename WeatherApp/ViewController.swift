@@ -17,8 +17,8 @@ class ViewController: UIViewController {
     
     private lazy var cityNameLabel = createLabel(labelText: "-", fontName: FontName.copperplate.rawValue, sizeOfFont: 20)
     private lazy var temperatureMainLabel = createLabel(labelText: "", fontName: FontName.helveticaNeue.rawValue, sizeOfFont: 43)
-    private lazy var dayOfWeekLabel = createLabel(labelText: "MONDAY", fontName: FontName.copperplate.rawValue, sizeOfFont: 30)
-    private lazy var currentDateLabel = createLabel(labelText: "7 NOV", fontName: FontName.copperplate.rawValue, sizeOfFont: 17)
+    private lazy var dayOfWeekLabel = createLabel(labelText: "-", fontName: FontName.copperplate.rawValue, sizeOfFont: 30)
+    private lazy var dayOfMonthLabel = createLabel(labelText: "-", fontName: FontName.copperplate.rawValue, sizeOfFont: 17)
     private lazy var weatherConditionsLabel = createLabel(labelText: "-", fontName: FontName.copperplate.rawValue, sizeOfFont: 18)
     private lazy var temperatureLabel = createLabel(imageName: "thermometer", imageColor: temperatureIconColor, labelText: "-", fontName: FontName.helveticaNeue.rawValue, sizeOfFont: 17)
     private lazy var windSpeedLabel = createLabel(imageName: "wind", imageColor: windIconColor, labelText: "-", fontName: FontName.helveticaNeue.rawValue, sizeOfFont: 17)
@@ -31,6 +31,8 @@ class ViewController: UIViewController {
     let locationManager = LocationManager()
     let weatherProvider = WeatherProvider()
     
+    let date = Date()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,12 +43,10 @@ class ViewController: UIViewController {
         locationManager.setup()
     }
     
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         circleRotation()
     }
-    
     
     
     func createLabel(labelText: String, fontName: String, sizeOfFont: CGFloat) -> UILabel {
@@ -85,17 +85,17 @@ class ViewController: UIViewController {
         view.addSubview(temperatureLabel)
         view.addSubview(windSpeedLabel)
         view.addSubview(humidityLabel)
-        view.addSubview(currentDateLabel)
+        view.addSubview(dayOfMonthLabel)
         
         NSLayoutConstraint.activate([
             weatherConditionsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             weatherConditionsLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             
-            currentDateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            currentDateLabel.bottomAnchor.constraint(equalTo: weatherConditionsLabel.topAnchor, constant: -10),
+            dayOfMonthLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            dayOfMonthLabel.bottomAnchor.constraint(equalTo: weatherConditionsLabel.topAnchor, constant: -10),
             
             dayOfWeekLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            dayOfWeekLabel.bottomAnchor.constraint(equalTo: currentDateLabel.topAnchor, constant: -5),
+            dayOfWeekLabel.bottomAnchor.constraint(equalTo: dayOfMonthLabel.topAnchor, constant: -5),
 
             circleImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             circleImageView.bottomAnchor.constraint(equalTo: dayOfWeekLabel.topAnchor, constant: -50),
@@ -169,11 +169,32 @@ class ViewController: UIViewController {
         updateWeatherLabel(label: windSpeedLabel, value: weather.windSpeed, postfix: " m/s", withIcon: true)
         updateWeatherLabel(label: weatherConditionsLabel, value: weather.conditions.uppercased())
         updateWeatherLabel(label: cityNameLabel, value: cityFromTimezone(timezone: weather.timezone).uppercased())
+        updateWeatherLabel(label: dayOfMonthLabel, value: date.dayOfMonth())
+        updateWeatherLabel(label: dayOfWeekLabel, value: date.dayOfWeek() ?? "")
     }
 
     private func requestWeatherForLocation(location : (latitude: Double, longitude: Double)) {
         print("\(location.latitude) | \(location.longitude)")
         weatherProvider.request(location: location)
+    }
+
+}
+
+
+extension Date {
+    
+    func dayOfWeek() -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        dateFormatter.locale = Locale(identifier: "en_EN")
+        return dateFormatter.string(from: self).lowercased()
+    }
+    
+    func dayOfMonth() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM dd"
+        dateFormatter.locale = Locale(identifier: "en_EN")
+        return dateFormatter.string(from: self).uppercased()
     }
     
 }
