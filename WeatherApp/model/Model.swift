@@ -9,9 +9,9 @@ struct WeatherDetails: Decodable {
 
 
 struct WeatherCurrentCondition: Decodable {
-        let temp: Float
-        let humidity: Float
-        let windspeed: Float
-        let conditions: String
-        let datetime: String
+    let temp: Float
+    let humidity: Float
+    let windspeed: Float
+    let conditions: String
+    let datetime: String
 }

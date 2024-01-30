@@ -1,7 +1,7 @@
 import UIKit
 import Foundation
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIScrollViewDelegate {
     
     enum FontName: String {
         case copperplate = "Copperplate"
@@ -20,13 +20,15 @@ class ViewController: UIViewController {
     private lazy var dayOfWeekLabel = createLabel(labelText: "-", fontName: FontName.copperplate.rawValue, sizeOfFont: 30)
     private lazy var dayOfMonthLabel = createLabel(labelText: "-", fontName: FontName.copperplate.rawValue, sizeOfFont: 17)
     private lazy var weatherConditionsLabel = createLabel(labelText: "-", fontName: FontName.copperplate.rawValue, sizeOfFont: 18)
-    private lazy var temperatureLabel = createLabel(imageName: "thermometer", imageColor: temperatureIconColor, labelText: "-", fontName: FontName.helveticaNeue.rawValue, sizeOfFont: 17)
-    private lazy var windSpeedLabel = createLabel(imageName: "wind", imageColor: windIconColor, labelText: "-", fontName: FontName.helveticaNeue.rawValue, sizeOfFont: 17)
-    private lazy var humidityLabel = createLabel(imageName: "humidity", imageColor: humidityIconColor, labelText: "-", fontName: FontName.helveticaNeue.rawValue, sizeOfFont: 17)
-
-    let temperatureIconColor = UIColor(red: 240/255, green: 168/255, blue: 153/255, alpha: 1.0)
-    let windIconColor = UIColor(red: 185/255, green: 188/255, blue: 107/255, alpha: 1.0)
-    let humidityIconColor = UIColor(red: 181/255, green: 152/255, blue: 206/255, alpha: 1.0)
+    private lazy var temperatureLabel = createLabel(imageName: "thermometer", imageColor: .temperatureIconColor, labelText: "-", fontName: FontName.helveticaNeue.rawValue, sizeOfFont: 17)
+    private lazy var windSpeedLabel = createLabel(imageName: "wind", imageColor: .windIconColor, labelText: "-", fontName: FontName.helveticaNeue.rawValue, sizeOfFont: 17)
+    private lazy var humidityLabel = createLabel(imageName: "humidity", imageColor: .humidityIconColor, labelText: "-", fontName: FontName.helveticaNeue.rawValue, sizeOfFont: 17)
+    
+    
+    private var scrollView = UIScrollView()
+    
+//    private let forecast1Day = ScrollViewElement(day: "SATURDAY", temperature: "20")
+//    private let forecast2Day = ScrollViewElement(day: "SUNDAY", temperature: "19")
     
     let locationManager = LocationManager()
     let weatherProvider = WeatherProvider()
@@ -37,7 +39,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        scrollView.delegate = self
         setupViews()
+        setupScrollView()
+        view.addSubview(scrollView)
         locationManager.addDelegate(delegate: requestWeatherForLocation)
         weatherProvider.addDelegate(delegate: weatherDelegate)
         locationManager.setup()
@@ -49,7 +54,7 @@ class ViewController: UIViewController {
     }
     
     
-    func createLabel(labelText: String, fontName: String, sizeOfFont: CGFloat) -> UILabel {
+    private func createLabel(labelText: String, fontName: String, sizeOfFont: CGFloat) -> UILabel {
         let label = UILabel()
         label.text = labelText
         label.textColor = .black
@@ -58,7 +63,7 @@ class ViewController: UIViewController {
         return label
     }
     
-    func createLabel(imageName: String, imageColor: UIColor,
+    private func createLabel(imageName: String, imageColor: UIColor,
                      labelText: String, fontName: String,
                      sizeOfFont: CGFloat) -> UILabel {
         let label = UILabel()
@@ -75,7 +80,38 @@ class ViewController: UIViewController {
         return label
     }
     
-    func setupViews() {
+    private func setupScrollView() {
+        let screenWidth = UIScreen.main.bounds.width
+        let screenHeight = UIScreen.main.bounds.height
+        
+        let scrollViewWidth: CGFloat = 380.0
+        let scrollViewY: CGFloat = 700.0
+        
+        scrollView = UIScrollView(frame: CGRect(x: (screenWidth - scrollViewWidth) / 2.0,
+                                                y: scrollViewY,
+                                                width: scrollViewWidth,
+                                                height: screenHeight - scrollViewY))
+        
+        scrollView.delegate = self
+        view.addSubview(scrollView)
+        
+        let scrollViewElementWidth = scrollViewWidth / 3
+        
+        let numberOfViews = 10
+        for i in 0..<numberOfViews {
+            let customView = ScrollViewElement(frame: CGRect(x: CGFloat(i) * scrollViewElementWidth,
+                                                             y: 0,
+                                                             width: scrollViewElementWidth,
+                                                             height: scrollView.frame.size.height))
+            scrollView.addSubview(customView)
+        }
+        
+        scrollView.contentSize = CGSize(width: scrollViewElementWidth * CGFloat(numberOfViews),
+                                        height: scrollView.frame.size.height)
+        scrollView.isPagingEnabled = true
+    }
+    
+    private func setupViews() {
         view.backgroundColor = .white
         view.addSubview(circleImageView)
         view.addSubview(cityNameLabel)
@@ -119,7 +155,7 @@ class ViewController: UIViewController {
         ])
     }
     
-    func circleRotation() {
+    private func circleRotation() {
         // Create a CABasicAnimation for rotation
         let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
         rotationAnimation.toValue = NSNumber(value: Double.pi * 2.0)
@@ -127,7 +163,7 @@ class ViewController: UIViewController {
         circleImageView.layer.add(rotationAnimation, forKey: "spinAnimation")
     }
     
-    func updateWeatherLabel(label: UILabel, value: Float, postfix: String, withIcon: Bool) {
+    private func updateWeatherLabel(label: UILabel, value: Float, postfix: String, withIcon: Bool) {
         let intValue = Int(value.rounded())
 
         if (withIcon) {
@@ -147,11 +183,11 @@ class ViewController: UIViewController {
         }
     }
     
-    func updateWeatherLabel(label: UILabel, value: String) {
+    private func updateWeatherLabel(label: UILabel, value: String) {
         label.text = value
     }
 
-    func cityFromTimezone(timezone: String) -> String {
+    private func cityFromTimezone(timezone: String) -> String {
         var afterSlash = ""
         if let slash = timezone.range(of: "/")?.upperBound {
             afterSlash = String(timezone.suffix(from: slash))
