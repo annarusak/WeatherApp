@@ -26,9 +26,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     
     
     private var scrollView = UIScrollView()
-    
-//    private let forecast1Day = ScrollViewElement(day: "SATURDAY", temperature: "20")
-//    private let forecast2Day = ScrollViewElement(day: "SUNDAY", temperature: "19")
+    private var weatherForecastSubviews: [ScrollViewElement] = []
     
     let locationManager = LocationManager()
     let weatherProvider = WeatherProvider()
@@ -44,7 +42,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         setupScrollView()
         view.addSubview(scrollView)
         locationManager.addDelegate(delegate: requestWeatherForLocation)
-        weatherProvider.addDelegate(delegate: weatherDelegate)
+        weatherProvider.addDelegateWeatherCurrent(delegate: currentWeatherDelegate)
+        weatherProvider.addDelegateWeatherForecast(delegate: weatherForecastDelegate)
         locationManager.setup()
     }
     
@@ -104,6 +103,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                                                              width: scrollViewElementWidth,
                                                              height: scrollView.frame.size.height))
             scrollView.addSubview(customView)
+            weatherForecastSubviews.append(customView)
         }
         
         scrollView.contentSize = CGSize(width: scrollViewElementWidth * CGFloat(numberOfViews),
@@ -198,7 +198,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         return afterSlash
     }
     
-    private func weatherDelegate(weather : WeatherProvider.Weather) {
+    private func currentWeatherDelegate(weather: WeatherProvider.WeatherCurrent) {
         updateWeatherLabel(label: temperatureMainLabel, value: weather.temperature, postfix: "°", withIcon: false)
         updateWeatherLabel(label: temperatureLabel, value: weather.temperature, postfix: "°", withIcon: true)
         updateWeatherLabel(label: humidityLabel, value: weather.humidity, postfix: "%", withIcon: true)
@@ -208,11 +208,18 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         updateWeatherLabel(label: dayOfMonthLabel, value: date.dayOfMonth())
         updateWeatherLabel(label: dayOfWeekLabel, value: date.dayOfWeek() ?? "")
     }
+    
+    private func weatherForecastDelegate(weatherForecast: [WeatherProvider.WeatherForecast]) {
+        for (index, day) in weatherForecast.enumerated() {
+            weatherForecastSubviews[index].updateView(newDayName: day.datetime, newTemperature: day.temperature, weatherCondition: day.conditions)
+        }
+    }
 
     private func requestWeatherForLocation(location : (latitude: Double, longitude: Double)) {
         print("\(location.latitude) | \(location.longitude)")
         weatherProvider.request(location: location)
     }
+    
 
 }
 

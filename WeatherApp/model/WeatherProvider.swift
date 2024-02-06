@@ -3,7 +3,7 @@ import Foundation
 
 class WeatherProvider {
     
-    struct Weather {
+    struct WeatherCurrent {
         var temperature: Float = 0
         var windSpeed: Float = 0
         var humidity: Float = 0
@@ -11,9 +11,19 @@ class WeatherProvider {
         var timezone: String = ""
     }
     
-    private var currentWeather = Weather()
+    struct WeatherForecast {
+        var datetime: String = ""
+        var temperature: Float = 0
+        var conditions: String = ""
+    }
+    
+    private var weatherCurrent = WeatherCurrent()
+    private var weatherForecast10Days: [WeatherForecast] = []
+    
     private let keyURLString = "SEGQ9YES8T55WUMCE8CNRVCJR"
-    private var delegate: ((Weather) -> Void)?
+    
+    private var delegateWeatherCurrent: ((WeatherCurrent) -> Void)?
+    private var delegateWeatherForecast: (([WeatherForecast]) -> Void)?
     
     func request(location : (latitude: Double, longitude: Double)) {
         
@@ -36,22 +46,31 @@ class WeatherProvider {
                 let decoder = JSONDecoder()
                 let details = try decoder.decode(WeatherDetails.self, from: data)
                 
-                currentWeather = Weather(temperature: details.currentConditions.temp,
+                weatherCurrent = WeatherCurrent(temperature: details.currentConditions.temp,
                                       windSpeed: details.currentConditions.windspeed,
                                       humidity: details.currentConditions.humidity,
                                       conditions: details.currentConditions.conditions,
                                       timezone: details.timezone)
+                for i in 0...9 {
+                    weatherForecast10Days.append(WeatherForecast(datetime: details.days[i].datetime, temperature: details.days[i].temp, conditions: details.days[i].conditions))
+                }
+                print(weatherForecast10Days)
             } catch {
                 print(error)
             }
             DispatchQueue.main.async {
-                self.delegate?(currentWeather)
+                self.delegateWeatherCurrent?(weatherCurrent)
+                self.delegateWeatherForecast?(weatherForecast10Days)
             }
         }.resume()
     }
     
-    func addDelegate(delegate: @escaping (Weather) -> Void) {
-        self.delegate = delegate
+    func addDelegateWeatherCurrent(delegate: @escaping (WeatherCurrent) -> Void) {
+        self.delegateWeatherCurrent = delegate
+    }
+    
+    func addDelegateWeatherForecast(delegate: @escaping ([WeatherForecast]) -> Void) {
+        self.delegateWeatherForecast = delegate
     }
     
 }
