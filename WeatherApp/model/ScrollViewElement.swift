@@ -37,8 +37,7 @@ class ScrollViewElement: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        self.dayNameLabel.text = day
-//        self.temperatureLabel.text = temperature
+        
         self.setupUI()
     }
     
@@ -67,13 +66,18 @@ class ScrollViewElement: UIView {
             dayNameLabel.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor),
             
             weatherIcon.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -10),
-            weatherIcon.trailingAnchor.constraint(equalTo: dayNameLabel.centerXAnchor, constant: -5),
+            weatherIcon.trailingAnchor.constraint(equalTo: dayNameLabel.centerXAnchor, constant: -10),
             weatherIcon.widthAnchor.constraint(equalToConstant: 30),
             weatherIcon.heightAnchor.constraint(equalTo: weatherIcon.widthAnchor),
             
             temperatureLabel.centerYAnchor.constraint(equalTo: weatherIcon.centerYAnchor),
-            temperatureLabel.leadingAnchor.constraint(equalTo: dayNameLabel.centerXAnchor, constant: 5)
+            temperatureLabel.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -10)
         ])
+    }
+    
+    func updateView(newDayName: String, newTemperature: Float, weatherCondition: String) {
+        dayNameLabel.text = newDayName
+        temperatureLabel.text = String(newTemperature)
     }
     
 }

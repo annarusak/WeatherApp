@@ -5,6 +5,7 @@ struct WeatherDetails: Decodable {
     let timezone: String
     let currentConditions: WeatherCurrentCondition
     let address: String
+    let days: [Day]
 }
 
 
@@ -14,4 +15,11 @@ struct WeatherCurrentCondition: Decodable {
     let windspeed: Float
     let conditions: String
     let datetime: String
+}
+
+
+struct Day: Decodable {
+    let datetime: String
+    let temp: Float
+    let conditions: String
 }
