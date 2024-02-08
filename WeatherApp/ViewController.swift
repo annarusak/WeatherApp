@@ -15,14 +15,15 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         return imageView
     }()
     
-    private lazy var cityNameLabel = createLabel(labelText: "-", fontName: FontName.copperplate.rawValue, sizeOfFont: 20)
-    private lazy var temperatureMainLabel = createLabel(labelText: "", fontName: FontName.helveticaNeue.rawValue, sizeOfFont: 43)
-    private lazy var dayOfWeekLabel = createLabel(labelText: "-", fontName: FontName.copperplate.rawValue, sizeOfFont: 30)
-    private lazy var dayOfMonthLabel = createLabel(labelText: "-", fontName: FontName.copperplate.rawValue, sizeOfFont: 17)
-    private lazy var weatherConditionsLabel = createLabel(labelText: "-", fontName: FontName.copperplate.rawValue, sizeOfFont: 18)
+    private lazy var cityNameLabel = createLabel(labelText: "-", labelColor: .black, fontName: FontName.copperplate.rawValue, sizeOfFont: 20)
+    private lazy var temperatureMainLabel = createLabel(labelText: "", labelColor: .black, fontName: FontName.helveticaNeue.rawValue, sizeOfFont: 43)
+    private lazy var dayOfWeekLabel = createLabel(labelText: "-", labelColor: .black, fontName: FontName.copperplate.rawValue, sizeOfFont: 30)
+    private lazy var dayOfMonthLabel = createLabel(labelText: "-", labelColor: .black, fontName: FontName.copperplate.rawValue, sizeOfFont: 17)
+    private lazy var weatherConditionsLabel = createLabel(labelText: "-", labelColor: .black, fontName: FontName.copperplate.rawValue, sizeOfFont: 18)
     private lazy var temperatureLabel = createLabel(imageName: "thermometer", imageColor: .temperatureIconColor, labelText: "-", fontName: FontName.helveticaNeue.rawValue, sizeOfFont: 17)
     private lazy var windSpeedLabel = createLabel(imageName: "wind", imageColor: .windIconColor, labelText: "-", fontName: FontName.helveticaNeue.rawValue, sizeOfFont: 17)
     private lazy var humidityLabel = createLabel(imageName: "humidity", imageColor: .humidityIconColor, labelText: "-", fontName: FontName.helveticaNeue.rawValue, sizeOfFont: 17)
+    private lazy var weatherForecastLabel = createLabel(labelText: "10-DAY WEATHER FORECAST", labelColor: .lightGray, fontName: FontName.copperplate.rawValue, sizeOfFont: 14)
     
     
     private var scrollView = UIScrollView()
@@ -37,8 +38,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupViews()
         setupScrollView()
+        setupViews()
         locationManager.addDelegate(delegate: requestWeatherForLocation)
         weatherProvider.addDelegateWeatherCurrent(delegate: currentWeatherDelegate)
         weatherProvider.addDelegateWeatherForecast(delegate: weatherForecastDelegate)
@@ -51,18 +52,18 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     }
     
     
-    private func createLabel(labelText: String, fontName: String, sizeOfFont: CGFloat) -> UILabel {
+    private func createLabel(labelText: String, labelColor: UIColor, fontName: String, sizeOfFont: CGFloat) -> UILabel {
         let label = UILabel()
         label.text = labelText
-        label.textColor = .black
+        label.textColor = labelColor
         label.font = UIFont(name: "\(fontName)", size: sizeOfFont)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }
     
     private func createLabel(imageName: String, imageColor: UIColor,
-                     labelText: String, fontName: String,
-                     sizeOfFont: CGFloat) -> UILabel {
+                             labelText: String, fontName: String,
+                             sizeOfFont: CGFloat) -> UILabel {
         let label = UILabel()
         let imageAttachment = NSTextAttachment()
         imageAttachment.image = UIImage.init(systemName: imageName)?
@@ -75,50 +76,6 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
         return label
-    }
-    
-    private func setupViews() {
-        view.backgroundColor = .white
-        view.addSubview(circleImageView)
-        view.addSubview(cityNameLabel)
-        view.addSubview(temperatureMainLabel)
-        view.addSubview(dayOfWeekLabel)
-        view.addSubview(weatherConditionsLabel)
-        view.addSubview(temperatureLabel)
-        view.addSubview(windSpeedLabel)
-        view.addSubview(humidityLabel)
-        view.addSubview(dayOfMonthLabel)
-        
-        NSLayoutConstraint.activate([
-            weatherConditionsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            weatherConditionsLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            
-            dayOfMonthLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            dayOfMonthLabel.bottomAnchor.constraint(equalTo: weatherConditionsLabel.topAnchor, constant: -10),
-            
-            dayOfWeekLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            dayOfWeekLabel.bottomAnchor.constraint(equalTo: dayOfMonthLabel.topAnchor, constant: -5),
-
-            circleImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            circleImageView.bottomAnchor.constraint(equalTo: dayOfWeekLabel.topAnchor, constant: -50),
-            circleImageView.widthAnchor.constraint(equalToConstant: 160),
-            circleImageView.heightAnchor.constraint(equalToConstant: 160),
-
-            temperatureMainLabel.centerXAnchor.constraint(equalTo: circleImageView.centerXAnchor, constant: 5),
-            temperatureMainLabel.centerYAnchor.constraint(equalTo: circleImageView.centerYAnchor, constant: -3),
-
-            cityNameLabel.centerXAnchor.constraint(equalTo: circleImageView.centerXAnchor),
-            cityNameLabel.bottomAnchor.constraint(equalTo: circleImageView.topAnchor, constant: -5),
-
-            windSpeedLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            windSpeedLabel.centerYAnchor.constraint(equalTo: weatherConditionsLabel.centerYAnchor, constant: 100),
-
-            temperatureLabel.centerYAnchor.constraint(equalTo: windSpeedLabel.centerYAnchor),
-            temperatureLabel.rightAnchor.constraint(equalTo: windSpeedLabel.leftAnchor, constant: -60),
-
-            humidityLabel.centerYAnchor.constraint(equalTo: windSpeedLabel.centerYAnchor),
-            humidityLabel.leftAnchor.constraint(equalTo: windSpeedLabel.rightAnchor, constant: 60)
-        ])
     }
     
     private func setupScrollView() {
@@ -152,6 +109,54 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         scrollView.isPagingEnabled = true
         
         view.addSubview(scrollView)
+    }
+    
+    private func setupViews() {
+        view.backgroundColor = .white
+        view.addSubview(circleImageView)
+        view.addSubview(cityNameLabel)
+        view.addSubview(temperatureMainLabel)
+        view.addSubview(dayOfWeekLabel)
+        view.addSubview(weatherConditionsLabel)
+        view.addSubview(temperatureLabel)
+        view.addSubview(windSpeedLabel)
+        view.addSubview(humidityLabel)
+        view.addSubview(dayOfMonthLabel)
+        view.addSubview(weatherForecastLabel)
+        
+        NSLayoutConstraint.activate([
+            weatherConditionsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            weatherConditionsLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+            dayOfMonthLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            dayOfMonthLabel.bottomAnchor.constraint(equalTo: weatherConditionsLabel.topAnchor, constant: -10),
+            
+            dayOfWeekLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            dayOfWeekLabel.bottomAnchor.constraint(equalTo: dayOfMonthLabel.topAnchor, constant: -5),
+
+            circleImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            circleImageView.bottomAnchor.constraint(equalTo: dayOfWeekLabel.topAnchor, constant: -50),
+            circleImageView.widthAnchor.constraint(equalToConstant: 160),
+            circleImageView.heightAnchor.constraint(equalToConstant: 160),
+
+            temperatureMainLabel.centerXAnchor.constraint(equalTo: circleImageView.centerXAnchor, constant: 5),
+            temperatureMainLabel.centerYAnchor.constraint(equalTo: circleImageView.centerYAnchor, constant: -3),
+
+            cityNameLabel.centerXAnchor.constraint(equalTo: circleImageView.centerXAnchor),
+            cityNameLabel.bottomAnchor.constraint(equalTo: circleImageView.topAnchor, constant: -5),
+
+            windSpeedLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            windSpeedLabel.centerYAnchor.constraint(equalTo: weatherConditionsLabel.centerYAnchor, constant: 100),
+
+            temperatureLabel.centerYAnchor.constraint(equalTo: windSpeedLabel.centerYAnchor),
+            temperatureLabel.rightAnchor.constraint(equalTo: windSpeedLabel.leftAnchor, constant: -60),
+
+            humidityLabel.centerYAnchor.constraint(equalTo: windSpeedLabel.centerYAnchor),
+            humidityLabel.leftAnchor.constraint(equalTo: windSpeedLabel.rightAnchor, constant: 60),
+            
+            weatherForecastLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            weatherForecastLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 95)
+        ])
     }
     
     private func circleRotation() {
