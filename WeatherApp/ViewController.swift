@@ -40,7 +40,6 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         scrollView.delegate = self
         setupViews()
         setupScrollView()
-        view.addSubview(scrollView)
         locationManager.addDelegate(delegate: requestWeatherForLocation)
         weatherProvider.addDelegateWeatherCurrent(delegate: currentWeatherDelegate)
         weatherProvider.addDelegateWeatherForecast(delegate: weatherForecastDelegate)
@@ -109,6 +108,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         scrollView.contentSize = CGSize(width: scrollViewElementWidth * CGFloat(numberOfViews),
                                         height: scrollView.frame.size.height)
         scrollView.isPagingEnabled = true
+        
+        view.addSubview(scrollView)
     }
     
     private func setupViews() {
@@ -210,8 +211,22 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     }
     
     private func weatherForecastDelegate(weatherForecast: [WeatherProvider.WeatherForecast]) {
+        // Create a DateFormatter instance
+        let dateFormatter = DateFormatter()
+        // Specify the date format
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        var dayOfWeek = ""
+        
         for (index, day) in weatherForecast.enumerated() {
-            weatherForecastSubviews[index].updateView(newDayName: day.datetime, newTemperature: day.temperature, weatherCondition: day.conditions)
+            
+            // Convert the string to a Date object
+            if let date = dateFormatter.date(from: day.datetime) {
+                dayOfWeek = date.dayOfWeek() ?? day.datetime
+            }
+            
+            weatherForecastSubviews[index].updateView(dayOfWeek: dayOfWeek,
+                                                      temperature: Int((day.temperature).rounded()),
+                                                      weatherCondition: day.conditions)
         }
     }
 
