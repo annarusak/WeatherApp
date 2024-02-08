@@ -29,7 +29,7 @@ class ScrollViewElement: UIView {
     
     private let weatherIcon: UIImageView = {
         let icon = UIImageView()
-        icon.image = UIImage(systemName: "sun.max.fill")
+        icon.image = UIImage(systemName: "")
         icon.contentMode = .scaleAspectFit
         return icon
     }()
@@ -71,13 +71,14 @@ class ScrollViewElement: UIView {
             weatherIcon.heightAnchor.constraint(equalTo: weatherIcon.widthAnchor),
             
             temperatureLabel.centerYAnchor.constraint(equalTo: weatherIcon.centerYAnchor),
-            temperatureLabel.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -20)
+            temperatureLabel.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -17)
         ])
     }
     
-    func updateView(dayOfWeek: String, temperature: Int, weatherCondition: String) {
+    func updateView(dayOfWeek: String, temperature: Int, icon: UIImage) {
         dayNameLabel.text = dayOfWeek
-        temperatureLabel.text = String(temperature)
+        temperatureLabel.text = String(temperature) + "°"
+        weatherIcon.image = icon
     }
     
 }

@@ -21,5 +21,5 @@ struct WeatherCurrentCondition: Decodable {
 struct Day: Decodable {
     let datetime: String
     let temp: Float
-    let conditions: String
+    let icon: String
 }
