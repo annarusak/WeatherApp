@@ -210,8 +210,22 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     }
     
     private func weatherForecastDelegate(weatherForecast: [WeatherProvider.WeatherForecast]) {
+        // Create a DateFormatter instance
+        let dateFormatter = DateFormatter()
+        // Specify the date format
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        var dayOfWeek = ""
+        
         for (index, day) in weatherForecast.enumerated() {
-            weatherForecastSubviews[index].updateView(newDayName: day.datetime, newTemperature: day.temperature, weatherCondition: day.conditions)
+            
+            // Convert the string to a Date object
+            if let date = dateFormatter.date(from: day.datetime) {
+                dayOfWeek = date.dayOfWeek() ?? day.datetime
+            }
+            
+            weatherForecastSubviews[index].updateView(dayOfWeek: dayOfWeek,
+                                                      temperature: day.temperature,
+                                                      weatherCondition: day.conditions)
         }
     }
 

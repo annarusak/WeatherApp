@@ -51,7 +51,7 @@ class WeatherProvider {
                                       humidity: details.currentConditions.humidity,
                                       conditions: details.currentConditions.conditions,
                                       timezone: details.timezone)
-                for i in 0...9 {
+                for i in 1...10 {
                     weatherForecast10Days.append(WeatherForecast(datetime: details.days[i].datetime, temperature: details.days[i].temp, conditions: details.days[i].conditions))
                 }
                 print(weatherForecast10Days)

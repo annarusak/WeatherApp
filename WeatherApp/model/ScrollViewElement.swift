@@ -14,7 +14,7 @@ class ScrollViewElement: UIView {
         label.textColor = .black
         label.textAlignment = .center
         label.font = UIFont(name: "Copperplate", size: 18)
-        label.text = "TODAY"
+        label.text = "-"
         return label
     }()
     
@@ -23,7 +23,7 @@ class ScrollViewElement: UIView {
         label.textColor = .black
         label.textAlignment = .center
         label.font = UIFont(name: "Helvetica Neue", size: 24)
-        label.text = "17"
+        label.text = "-"
         return label
     }()
     
@@ -75,9 +75,9 @@ class ScrollViewElement: UIView {
         ])
     }
     
-    func updateView(newDayName: String, newTemperature: Float, weatherCondition: String) {
-        dayNameLabel.text = newDayName
-        temperatureLabel.text = String(newTemperature)
+    func updateView(dayOfWeek: String, temperature: Float, weatherCondition: String) {
+        dayNameLabel.text = dayOfWeek
+        temperatureLabel.text = String(temperature)
     }
     
 }
