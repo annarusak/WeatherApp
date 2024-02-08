@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F45D7D772B03C64300B4567C /* WeatherProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45D7D762B03C64300B4567C /* WeatherProvider.swift */; };
+		F4A548222B75519000394126 /* IconEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A548212B75519000394126 /* IconEnum.swift */; };
 		F4CE97332B025F6500F7CB0A /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CE97322B025F6500F7CB0A /* LocationManager.swift */; };
 		F4CE97352B028E8500F7CB0A /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CE97342B028E8500F7CB0A /* Model.swift */; };
 		F4E1B68C2B6185680098DF75 /* ScrollViewElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E1B68B2B6185680098DF75 /* ScrollViewElement.swift */; };
@@ -22,6 +23,7 @@
 
 /* Begin PBXFileReference section */
 		F45D7D762B03C64300B4567C /* WeatherProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherProvider.swift; sourceTree = "<group>"; };
+		F4A548212B75519000394126 /* IconEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconEnum.swift; sourceTree = "<group>"; };
 		F4CE97322B025F6500F7CB0A /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		F4CE97342B028E8500F7CB0A /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		F4E1B68B2B6185680098DF75 /* ScrollViewElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewElement.swift; sourceTree = "<group>"; };
@@ -55,6 +57,7 @@
 				F45D7D762B03C64300B4567C /* WeatherProvider.swift */,
 				F4E1B68B2B6185680098DF75 /* ScrollViewElement.swift */,
 				F4F22D122B643BEA00AABC36 /* ColorExtension.swift */,
+				F4A548212B75519000394126 /* IconEnum.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -163,6 +166,7 @@
 			files = (
 				F4CE97352B028E8500F7CB0A /* Model.swift in Sources */,
 				F45D7D772B03C64300B4567C /* WeatherProvider.swift in Sources */,
+				F4A548222B75519000394126 /* IconEnum.swift in Sources */,
 				F4CE97332B025F6500F7CB0A /* LocationManager.swift in Sources */,
 				F4F22D132B643BEA00AABC36 /* ColorExtension.swift in Sources */,
 				F4F738602AF904AD009897E6 /* ViewController.swift in Sources */,

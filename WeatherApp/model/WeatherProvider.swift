@@ -14,7 +14,7 @@ class WeatherProvider {
     struct WeatherForecast {
         var datetime: String = ""
         var temperature: Float = 0
-        var conditions: String = ""
+        var icon: String = ""
     }
     
     private var weatherCurrent = WeatherCurrent()
@@ -52,9 +52,10 @@ class WeatherProvider {
                                       conditions: details.currentConditions.conditions,
                                       timezone: details.timezone)
                 for i in 1...10 {
-                    weatherForecast10Days.append(WeatherForecast(datetime: details.days[i].datetime, temperature: details.days[i].temp, conditions: details.days[i].conditions))
+                    weatherForecast10Days.append(WeatherForecast(datetime: details.days[i].datetime,
+                                                                 temperature: details.days[i].temp,
+                                                                 icon: details.days[i].icon))
                 }
-                print(weatherForecast10Days)
             } catch {
                 print(error)
             }

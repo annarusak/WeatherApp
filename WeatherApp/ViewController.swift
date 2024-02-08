@@ -37,7 +37,6 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        scrollView.delegate = self
         setupViews()
         setupScrollView()
         locationManager.addDelegate(delegate: requestWeatherForLocation)
@@ -76,40 +75,6 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
         return label
-    }
-    
-    private func setupScrollView() {
-        let screenWidth = UIScreen.main.bounds.width
-        let screenHeight = UIScreen.main.bounds.height
-        
-        let scrollViewWidth: CGFloat = 380.0
-        let scrollViewY: CGFloat = 700.0
-        
-        scrollView = UIScrollView(frame: CGRect(x: (screenWidth - scrollViewWidth) / 2.0,
-                                                y: scrollViewY,
-                                                width: scrollViewWidth,
-                                                height: screenHeight - scrollViewY))
-        
-        scrollView.delegate = self
-        view.addSubview(scrollView)
-        
-        let scrollViewElementWidth = scrollViewWidth / 3
-        
-        let numberOfViews = 10
-        for i in 0..<numberOfViews {
-            let customView = ScrollViewElement(frame: CGRect(x: CGFloat(i) * scrollViewElementWidth,
-                                                             y: 0,
-                                                             width: scrollViewElementWidth,
-                                                             height: scrollView.frame.size.height))
-            scrollView.addSubview(customView)
-            weatherForecastSubviews.append(customView)
-        }
-        
-        scrollView.contentSize = CGSize(width: scrollViewElementWidth * CGFloat(numberOfViews),
-                                        height: scrollView.frame.size.height)
-        scrollView.isPagingEnabled = true
-        
-        view.addSubview(scrollView)
     }
     
     private func setupViews() {
@@ -154,6 +119,39 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             humidityLabel.centerYAnchor.constraint(equalTo: windSpeedLabel.centerYAnchor),
             humidityLabel.leftAnchor.constraint(equalTo: windSpeedLabel.rightAnchor, constant: 60)
         ])
+    }
+    
+    private func setupScrollView() {
+        let screenWidth = UIScreen.main.bounds.width
+        let screenHeight = UIScreen.main.bounds.height
+        
+        let scrollViewWidth: CGFloat = 380.0
+        let scrollViewY: CGFloat = 700.0
+        
+        scrollView.delegate = self
+        
+        scrollView = UIScrollView(frame: CGRect(x: (screenWidth - scrollViewWidth) / 2.0,
+                                                y: scrollViewY,
+                                                width: scrollViewWidth,
+                                                height: screenHeight - scrollViewY))
+        
+        let scrollViewElementWidth = scrollViewWidth / 3
+        
+        let numberOfViews = 10
+        for i in 0..<numberOfViews {
+            let customView = ScrollViewElement(frame: CGRect(x: CGFloat(i) * scrollViewElementWidth,
+                                                             y: 0,
+                                                             width: scrollViewElementWidth,
+                                                             height: scrollView.frame.size.height))
+            scrollView.addSubview(customView)
+            weatherForecastSubviews.append(customView)
+        }
+        
+        scrollView.contentSize = CGSize(width: scrollViewElementWidth * CGFloat(numberOfViews),
+                                        height: scrollView.frame.size.height)
+        scrollView.isPagingEnabled = true
+        
+        view.addSubview(scrollView)
     }
     
     private func circleRotation() {
@@ -211,22 +209,44 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     }
     
     private func weatherForecastDelegate(weatherForecast: [WeatherProvider.WeatherForecast]) {
-        // Create a DateFormatter instance
         let dateFormatter = DateFormatter()
-        // Specify the date format
         dateFormatter.dateFormat = "yyyy-MM-dd"
         var dayOfWeek = ""
         
         for (index, day) in weatherForecast.enumerated() {
-            
-            // Convert the string to a Date object
-            if let date = dateFormatter.date(from: day.datetime) {
+                if let date = dateFormatter.date(from: day.datetime) {
                 dayOfWeek = date.dayOfWeek() ?? day.datetime
             }
-            
+            if index <= weatherForecastSubviews.count {
             weatherForecastSubviews[index].updateView(dayOfWeek: dayOfWeek,
                                                       temperature: Int((day.temperature).rounded()),
-                                                      weatherCondition: day.conditions)
+                                                      icon: forecastIcon(iconName: day.icon))
+            }
+        }
+    }
+    
+    private func forecastIcon(iconName: String) -> UIImage {
+        switch iconName {
+        case IconName.clearDay.rawValue:
+            return UIImage(named: iconName)!
+        case IconName.clearNight.rawValue:
+            return UIImage(named: iconName)!
+        case IconName.cloudy.rawValue:
+            return UIImage(named: iconName)!
+        case IconName.fog.rawValue:
+            return UIImage(named: iconName)!
+        case IconName.partlyCloudyDay.rawValue:
+            return UIImage(named: iconName)!
+        case IconName.partlyCloudyNight.rawValue:
+            return UIImage(named: iconName)!
+        case IconName.rain.rawValue:
+            return UIImage(named: iconName)!
+        case IconName.snow.rawValue:
+            return UIImage(named: iconName)!
+        case IconName.wind.rawValue:
+            return UIImage(named: iconName)!
+        default:
+            return UIImage(named: iconName)!
         }
     }
 

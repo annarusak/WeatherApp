@@ -11,7 +11,7 @@ extension UIColor {
     }
     
     static var humidityIconColor: UIColor {
-        UIColor(red: 181/255, green: 152/255, blue: 206/255, alpha: 1.0)
+        UIColor(red: 246/255, green: 196/255, blue: 110/255, alpha: 1.0)
     }
     
     static var scrollElementBackgroundColor: UIColor {
