@@ -40,7 +40,6 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         scrollView.delegate = self
         setupViews()
         setupScrollView()
-        view.addSubview(scrollView)
         locationManager.addDelegate(delegate: requestWeatherForLocation)
         weatherProvider.addDelegateWeatherCurrent(delegate: currentWeatherDelegate)
         weatherProvider.addDelegateWeatherForecast(delegate: weatherForecastDelegate)
@@ -109,6 +108,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         scrollView.contentSize = CGSize(width: scrollViewElementWidth * CGFloat(numberOfViews),
                                         height: scrollView.frame.size.height)
         scrollView.isPagingEnabled = true
+        
+        view.addSubview(scrollView)
     }
     
     private func setupViews() {
@@ -224,7 +225,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             }
             
             weatherForecastSubviews[index].updateView(dayOfWeek: dayOfWeek,
-                                                      temperature: day.temperature,
+                                                      temperature: Int((day.temperature).rounded()),
                                                       weatherCondition: day.conditions)
         }
     }

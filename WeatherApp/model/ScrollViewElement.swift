@@ -66,16 +66,16 @@ class ScrollViewElement: UIView {
             dayNameLabel.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor),
             
             weatherIcon.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -10),
-            weatherIcon.trailingAnchor.constraint(equalTo: dayNameLabel.centerXAnchor, constant: -10),
+            weatherIcon.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: 20),
             weatherIcon.widthAnchor.constraint(equalToConstant: 30),
             weatherIcon.heightAnchor.constraint(equalTo: weatherIcon.widthAnchor),
             
             temperatureLabel.centerYAnchor.constraint(equalTo: weatherIcon.centerYAnchor),
-            temperatureLabel.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -10)
+            temperatureLabel.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -20)
         ])
     }
     
-    func updateView(dayOfWeek: String, temperature: Float, weatherCondition: String) {
+    func updateView(dayOfWeek: String, temperature: Int, weatherCondition: String) {
         dayNameLabel.text = dayOfWeek
         temperatureLabel.text = String(temperature)
     }
