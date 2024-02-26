@@ -8,7 +8,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         case helveticaNeue = "Helvetica Neue"
     }
     
-    let circleImageView: UIImageView = {
+    private let circleImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "circle")
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -29,10 +29,10 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     private var scrollView = UIScrollView()
     private var weatherForecastSubviews: [ScrollViewElement] = []
     
-    let locationManager = LocationManager()
-    let weatherProvider = WeatherProvider()
+    private let locationManager = LocationManager()
+    private let weatherProvider = WeatherProvider()
     
-    let date = Date()
+    private let date = Date()
     
     
     override func viewDidLoad() {

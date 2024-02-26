@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F40522532B8B9A1F0073061E /* WeatherDemo.gif in Resources */ = {isa = PBXBuildFile; fileRef = F40522522B8B9A1F0073061E /* WeatherDemo.gif */; };
+		F40522562B8CAFFF0073061E /* gitignore.txt in Resources */ = {isa = PBXBuildFile; fileRef = F40522552B8CAFFF0073061E /* gitignore.txt */; };
 		F45D7D772B03C64300B4567C /* WeatherProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45D7D762B03C64300B4567C /* WeatherProvider.swift */; };
 		F4A548222B75519000394126 /* IconEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A548212B75519000394126 /* IconEnum.swift */; };
 		F4CE97332B025F6500F7CB0A /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CE97322B025F6500F7CB0A /* LocationManager.swift */; };
@@ -22,6 +24,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F40522522B8B9A1F0073061E /* WeatherDemo.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = WeatherDemo.gif; sourceTree = "<group>"; };
+		F40522542B8B9AA00073061E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		F40522552B8CAFFF0073061E /* gitignore.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitignore.txt; sourceTree = "<group>"; };
 		F45D7D762B03C64300B4567C /* WeatherProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherProvider.swift; sourceTree = "<group>"; };
 		F4A548212B75519000394126 /* IconEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconEnum.swift; sourceTree = "<group>"; };
 		F4CE97322B025F6500F7CB0A /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
@@ -65,6 +70,9 @@
 		F4F7384F2AF904AD009897E6 = {
 			isa = PBXGroup;
 			children = (
+				F40522522B8B9A1F0073061E /* WeatherDemo.gif */,
+				F40522542B8B9AA00073061E /* README.md */,
+				F40522552B8CAFFF0073061E /* gitignore.txt */,
 				F4F7385A2AF904AD009897E6 /* WeatherApp */,
 				F4F738592AF904AD009897E6 /* Products */,
 			);
@@ -151,9 +159,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F40522532B8B9A1F0073061E /* WeatherDemo.gif in Resources */,
 				F4F738682AF904AF009897E6 /* LaunchScreen.storyboard in Resources */,
 				F4F738652AF904AF009897E6 /* Assets.xcassets in Resources */,
 				F4F738632AF904AD009897E6 /* Main.storyboard in Resources */,
+				F40522562B8CAFFF0073061E /* gitignore.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
