@@ -1,7 +1,7 @@
 import UIKit
 
 extension UIColor {
-        
+    
     static var temperatureIconColor: UIColor {
         UIColor(red: 240/255, green: 168/255, blue: 153/255, alpha: 1.0)
     }

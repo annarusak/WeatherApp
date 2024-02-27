@@ -1,7 +1,9 @@
 import UIKit
 
+// A custom UIView representing an element in the scroll view displaying weather forecast.
 class ScrollViewElement: UIView {
     
+    /// The background view of the scroll view element.
     private let backgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = .scrollElementBackgroundColor
@@ -9,6 +11,7 @@ class ScrollViewElement: UIView {
         return view
     }()
     
+    /// Label for displaying the day name.
     private let dayNameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -18,6 +21,7 @@ class ScrollViewElement: UIView {
         return label
     }()
     
+    /// Label for displaying the temperature.
     private let temperatureLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -27,6 +31,7 @@ class ScrollViewElement: UIView {
         return label
     }()
     
+    /// Image view for displaying the weather icon.
     private let weatherIcon: UIImageView = {
         let icon = UIImageView()
         icon.image = UIImage(systemName: "")
@@ -45,6 +50,7 @@ class ScrollViewElement: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    /// Set up the user interface elements.
     private func setupUI() {
         self.addSubview(backgroundView)
         self.addSubview(dayNameLabel)
@@ -75,6 +81,11 @@ class ScrollViewElement: UIView {
         ])
     }
     
+    /// Update the view with new data.
+    /// - Parameters:
+    ///   - dayOfWeek: The name of the day.
+    ///   - temperature: The temperature value.
+    ///   - icon: The weather icon image.
     func updateView(dayOfWeek: String, temperature: Int, icon: UIImage) {
         dayNameLabel.text = dayOfWeek
         temperatureLabel.text = String(temperature) + "°"

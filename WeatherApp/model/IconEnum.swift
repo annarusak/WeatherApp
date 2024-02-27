@@ -1,6 +1,5 @@
 import Foundation
 
-
 enum IconName: String {
     
     case clearDay = "clear-day"
